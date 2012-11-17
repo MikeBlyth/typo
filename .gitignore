@@ -23,3 +23,6 @@ public/cache/*
 .rbenv-version
 bin/
 .bundle/
+login.txt
+db/db_development
+db/db_test

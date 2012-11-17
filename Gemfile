@@ -57,3 +57,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
 end
+
+group :test do
+  gem 'launchy'
+end

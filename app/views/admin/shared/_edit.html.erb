@@ -4,3 +4,13 @@
   <%= render :partial => "form" %>
 
 <% end %>
+
+<div>
+  <%= form_for @article, :url => article_merge_path do |f| -%>
+    <h4>Merge</h4>
+    <%= f.label :merge_with, 'Article ID' -%>
+    <%= text_field_tag 'merge_with' -%>
+    <%= f.submit "Merge" %>
+  <% end %>
+</div>
+
