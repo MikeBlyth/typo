@@ -60,4 +60,5 @@ end
 
 group :test do
   gem 'launchy'
+  gem 'spork-rails'
 end

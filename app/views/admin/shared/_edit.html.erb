@@ -5,12 +5,13 @@
 
 <% end %>
 
-<div>
-  <%= form_for @article, :url => url_for(:controller => 'admin/content', :id=>@article.id, :action=> :merge_article) do |f| -%>
-    <h4>Merge</h4>
-    <%= f.label :merge_with, 'Article ID' -%>
-    <%= text_field_tag 'merge_with' -%>
-    <%= f.submit "Merge" %>
-  <% end %>
-</div>
-
+<% if @article %>
+  <div>
+    <%= form_for @article, :url => url_for(:controller => 'admin/content', :id=>@article.id, :action=> :merge_article) do |f| -%>
+      <h4>Merge</h4>
+      <%= f.label :merge_with, 'Article ID' -%>
+      <%= text_field_tag 'merge_with' -%>
+      <%= f.submit "Merge" %>
+    <% end %>
+  </div>
+<% end %>
