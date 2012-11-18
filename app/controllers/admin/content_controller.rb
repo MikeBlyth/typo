@@ -113,6 +113,12 @@ class Admin::ContentController < Admin::BaseController
     render :text => nil
   end
 
+  def merge_article
+    @article = Article.find_by_id(params[:id])
+    #@article.merge(params[:merge_with])
+    redirect_to url_for(:controller => 'admin/content', :id=>@article.id, :action=> :edit)
+  end
+  
   protected
 
   def get_fresh_or_existing_draft_for_article
@@ -240,4 +246,5 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+
 end

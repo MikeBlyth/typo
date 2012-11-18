@@ -671,4 +671,18 @@ describe Admin::ContentController do
 
     end
   end
+
+  describe 'Merge articles' do
+    before(:each) do
+      @article = Factory.create(:article, :title => title, :body => "This is the body for article '#{title}'")
+      Factory.create(:comment, :title => "First comment on article #{title}", :article_id => article.id)  
+      Factory.create(:comment, :title => "Second comment on article #{title}", :article_id => article.id)
+    end
+
+    it 'calls article#merge to merge another article to this one' do
+      @article.should_receive(:merge)
+      post :merge, :id=>@article.id, :merge_with => nil
+    end
+  end
+
 end
