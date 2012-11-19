@@ -31,7 +31,7 @@ gem 'require_relative'
 gem 'htmlentities'
 gem 'json'
 gem 'bluecloth', '~> 2.1'
-gem 'coderay' #, '~> 0.9'
+gem 'coderay', '~> 0.9'
 gem 'kaminari'
 gem 'RedCloth', '~> 4.2.8'
 gem 'addressable', '~> 2.1', :require => 'addressable/uri'
@@ -45,9 +45,9 @@ gem 'acts_as_tree_rails3'
 gem 'recaptcha', :require => 'recaptcha/rails', :branch => 'rails3'
 
 group :development, :test do
-#  gem 'ruby-debug19'
+  gem 'ruby-debug19'
   gem 'factory_girl', '~> 2.2'
-#  gem 'webrat'
+  gem 'webrat'
   gem 'rspec-rails', '~> 2.0'
   gem 'simplecov', :require => false
   gem 'sqlite3'
@@ -56,9 +56,6 @@ group :development, :test do
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
   gem 'capybara'
-  gem 'pry'
-  gem 'pry-rails', '~> 0.2.1'
-  gem 'pry-debugger'
 end
 
 group :test do
