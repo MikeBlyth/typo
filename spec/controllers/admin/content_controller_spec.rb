@@ -674,15 +674,40 @@ describe Admin::ContentController do
 
   describe 'Merge articles' do
     before(:each) do
+      Factory(:blog)
+      @user = Factory(:user, :profile => Factory(:profile_admin, :label => Profile::ADMIN))
+      request.session = { :user => @user.id }
+
       @article = Factory.create(:article, :title => "Article One", :body => "This is the body for article One'")
-      Factory.create(:comment, :title => "First comment on article One", :article_id => article.id)  
-      Factory.create(:comment, :title => "Second comment on article One", :article_id => article.id)
+#      Factory.create(:comment, :title => "First comment on article One", :article_id => @article.id)  
+#      Factory.create(:comment, :title => "Second comment on article One", :article_id => @article.id)
     end
 
+
     it 'calls article#merge to merge another article to this one' do
+      Article.stub(:find_by_id => @article)
+      @article.stub(:merge)
       @article.should_receive(:merge)
-      post :merge, :id=>@article.id, :merge_with => nil
+      post :merge_article, :id=>@article.id, :merge_with => nil
     end
+
+    it 'does not call article#merge when both articles are the same' do
+      Article.stub(:find_by_id => @article)
+      @article.stub(:merge)
+      @article.should_not_receive(:merge)
+      post :merge_article, :id=>@article.id, :merge_with => @article.id
+    end
+
+    it 'does not merge articles when user is non-admin' do
+      @user = Factory(:user, :profile => Factory(:profile_publisher))
+      request.session = { :user => @user.id }
+      Article.stub(:find_by_id => @article)
+      @article.stub(:merge)
+      @article.should_not_receive(:merge)
+      post :merge_article, :id=>@article.id, :merge_with => nil
+#      response.should redirect_to('/')
+    end
+
   end
 
 end

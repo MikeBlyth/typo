@@ -114,8 +114,18 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def merge_article
+    unless current_user.admin?
+#raise 'Invalid User'
+      # error stuff
+      redirect_to '/' and return
+    end
     @article = Article.find_by_id(params[:id])
-    #@article.merge(params[:merge_with])
+    merge_target = params[:merge_with]
+    if @article.id != merge_target
+      @article.merge(merge_target)
+    else
+      # error stuff
+    end
     redirect_to url_for(:controller => 'admin/content', :id=>@article.id, :action=> :edit)
   end
   
