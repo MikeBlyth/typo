@@ -39,7 +39,7 @@ end
 
 Then /^the article title should be "(.*?)"$/ do |title|
 #save_and_open_page
-  puts page.body
+  page.should have_selector('#article_title', :value => title)
 end
 
 Then /^the body should include the "(.*?)" body$/ do |title|
