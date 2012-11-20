@@ -122,12 +122,12 @@ class Admin::ContentController < Admin::BaseController
     @article = Article.find_by_id(params[:id])
     merge_target = params[:merge_with]
     if @article.id != merge_target
-      @article.merge_with(merge_target)
+      merged = @article.merge_with(merge_target)
       flash[:notice] = "Successfully merged"
     else
       # error stuff
     end
-    redirect_to url_for(:controller => 'admin/content', :id=>@article.id, :action=> :edit)
+    redirect_to url_for(:controller => 'admin/content', :id=>merged.id, :action=> :edit)
   end
   
   protected

@@ -21,7 +21,15 @@ describe Article do
     end
 
     it 'creates new article' do
-      lambda {@article_1.merge_with(@article_2.id)}.should change(Article, :count).by(1)
+      last_id = Article.last.id
+      @article_1.merge_with(@article_2.id)
+      Article.last.id.should eq last_id + 1
+    end
+
+    it 'deletes both old articles' do
+      @article_1.merge_with(@article_2.id)
+      Article.find_by_id(@article_1.id).should be_nil
+      Article.find_by_id(@article_2.id).should be_nil
     end
 
     describe 'result' do
@@ -44,7 +52,18 @@ describe Article do
       it 'body includes body of second article' do
         @merged.body.should match(@article_2.body)
       end
+    end
 
+    describe 'merged comments' do
+      it 'comments are union of those for first and second article' do
+        @article_1.comments << Factory.create(:comment, :article_id => @article_1)
+        @article_1.comments << Factory.create(:comment, :article_id => @article_1)
+        @article_2.comments << Factory.create(:comment, :article_id => @article_2)
+        @article_2.comments << Factory.create(:comment, :article_id => @article_2)
+        original_comment_ids = (@article_1.comments + @article_2.comments).map {|c| c.id}.sort
+        @merged = @article_1.merge_with(@article_2.id)
+        @merged.comments.map {|c| c.id}.sort.should eq original_comment_ids
+      end
     end
   end
 

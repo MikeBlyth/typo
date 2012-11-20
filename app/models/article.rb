@@ -228,6 +228,9 @@ class Article < Content
     merged = Article.new(:body => self.body, :author => self.author, :title => self.title)
     merged.body << "\n\n#{target.body}"
     merged.save
+    merged.comments = self.comments + target.comments
+    self.reload.destroy
+    target.reload.destroy
     return merged
   end
 

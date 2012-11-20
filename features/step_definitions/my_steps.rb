@@ -45,7 +45,7 @@ Then /^the merged title should be "(.*?)"$/ do |title|
 end
 
 Then /^the merged body should include the "(.*?)" body$/ do |title|
-  Article.last.body.should match("This is the body for '#{title}'")
+  Article.last.body.should match("This is the body for article '#{title}'")
 #debugger
 #  page.should have_selector('#editor', :value => title)
 end
@@ -56,7 +56,8 @@ Then /^the merged author should be the "(.*?)" author$/ do |title|
 end
 
 Then /^the merged comments should include the "(.*?)" comments$/ do |title|
-  pending # express the regexp above with the code you wish you had
+  Comment.where('article_id = ? and title = ?', Article.last.id, "First comment on article #{title}").count.should eq 1
+  Comment.where('article_id = ? and title = ?', Article.last.id, "Second comment on article #{title}").count.should eq 1
 end
 
 
