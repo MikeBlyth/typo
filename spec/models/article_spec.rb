@@ -14,6 +14,40 @@ describe Article do
     @articles = []
   end
 
+  describe '#merge_with' do
+    before(:each) do
+      @article_1 = FactoryGirl.create(:article, :author => "A", :title=>'Title 1', :body=> 'Body 1')
+      @article_2 = FactoryGirl.create(:article, :author => "B", :title=>'Title 2', :body=> 'Body 2')
+    end
+
+    it 'creates new article' do
+      lambda {@article_1.merge_with(@article_2.id)}.should change(Article, :count).by(1)
+    end
+
+    describe 'result' do
+      before(:each) do
+        @merged = @article_1.merge_with(@article_2.id)
+      end
+  
+      it 'has same author as first article' do
+        @merged.author = @article_1.author  
+      end
+
+      it 'has same title as first article' do
+        @merged.title = @article_1.title  
+      end
+
+      it 'body includes body of first article' do
+        @merged.body.should match(@article_1.body)
+      end
+
+      it 'body includes body of second article' do
+        @merged.body.should match(@article_2.body)
+      end
+
+    end
+  end
+
   def assert_results_are(*expected)
     assert_equal expected.size, @articles.size
     expected.each do |i|

@@ -224,6 +224,11 @@ class Article < Content
   end
 
   def merge_with(id)
+    target = Article.find(id)
+    merged = Article.new(:body => self.body, :author => self.author, :title => self.title)
+    merged.body << "\n\n#{target.body}"
+    merged.save
+    return merged
   end
 
   def really_send_pings(serverurl = blog.base_url, articleurl = nil)

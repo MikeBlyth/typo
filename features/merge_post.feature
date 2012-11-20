@@ -17,12 +17,12 @@ Scenario: Merge this post with another
   When I enter the ID for "Second Post" in the Merge Article box
   And I press "Merge"
   Then I should see "Successfully merged"
-  Then the article title should be "First Post"
-  And the body should include the "First Post" body
-  And the body should include the "Second Post" body
-  And the author should be the "First Post" author
-  And the comments should include the "First Post" comments
-  And the comments should include the "Second Post" comments
+  Then the merged title should be "First Post"
+  And the merged body should include the "First Post" body
+  And the merged body should include the "Second Post" body
+  And the merged author should be the "First Post" author
+  And the merged comments should include the "First Post" comments
+  And the merged comments should include the "Second Post" comments
   
 Scenario: Non-administrator does not see form for merging posts
   Given I am logged as non-admin

@@ -14,7 +14,8 @@ Given /^I am logged as non\-admin$/ do
 end
 
 And /^article "(.*)" exists with comments$/ do |title|
-  article = Factory.create(:article, :title => title, :body => "This is the body for article '#{title}'")
+  article = Factory.create(:article, :title => title, :body => "This is the body for article '#{title}'",
+    :author => "Author of '#{title}'")
 
   Factory.create(:comment, :title => "First comment on article #{title}", :article_id => article.id)  
   Factory.create(:comment, :title => "Second comment on article #{title}", :article_id => article.id)
@@ -29,7 +30,7 @@ When /^I edit my article$/ do
   article = Factory.create(:article, :title => 'Some Article', :body => "This is the body for 'Some Article'",
      :user_id => User.last.id)
   visit "/admin/content/edit/#{article.id}"
-save_and_open_page
+#save_and_open_page
 end
 
 When /^I enter the ID for "(.*?)" in the Merge Article box$/ do |title|
@@ -37,20 +38,24 @@ When /^I enter the ID for "(.*?)" in the Merge Article box$/ do |title|
   fill_in 'merge_with', :with => id
 end
 
-Then /^the article title should be "(.*?)"$/ do |title|
+Then /^the merged title should be "(.*?)"$/ do |title|
 #save_and_open_page
-  page.should have_selector('#article_title', :value => title)
+  Article.last.title.should eq title
+#  page.should have_selector('#article_title', :value => title)
 end
 
-Then /^the body should include the "(.*?)" body$/ do |title|
-  pending # express the regexp above with the code you wish you had
+Then /^the merged body should include the "(.*?)" body$/ do |title|
+  Article.last.body.should match("This is the body for '#{title}'")
+#debugger
+#  page.should have_selector('#editor', :value => title)
 end
 
-Then /^the author should be the "(.*?)" author$/ do |title|
-  pending # express the regexp above with the code you wish you had
+Then /^the merged author should be the "(.*?)" author$/ do |title|
+  Article.last.author.should match("Author of '#{title}'")
+#  page.should have_selector('#article_title', :value => title)
 end
 
-Then /^the comments should include the "(.*?)" comments$/ do |title|
+Then /^the merged comments should include the "(.*?)" comments$/ do |title|
   pending # express the regexp above with the code you wish you had
 end
 
