@@ -117,6 +117,7 @@ class Admin::ContentController < Admin::BaseController
     unless current_user.admin?
 #raise 'Invalid User'
       # error stuff
+      flash[:error] = "Not authorized"
       redirect_to '/' and return
     end
     @article = Article.find_by_id(params[:id])
@@ -126,6 +127,8 @@ class Admin::ContentController < Admin::BaseController
       flash[:notice] = "Successfully merged"
     else
       # error stuff
+      flash[:error] = "Cannot merge with self"
+      merged = @article
     end
     redirect_to url_for(:controller => 'admin/content', :id=>merged.id, :action=> :edit)
   end

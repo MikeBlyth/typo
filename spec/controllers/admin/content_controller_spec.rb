@@ -686,26 +686,26 @@ describe Admin::ContentController do
 
     it 'calls article#merge to merge another article to this one' do
       Article.stub(:find_by_id => @article)
-      @article.stub(:merge)
-      @article.should_receive(:merge)
-      post :merge_article, :id=>@article.id, :merge_with => nil
-    end
-
-    it 'does not call article#merge when both articles are the same' do
-      Article.stub(:find_by_id => @article)
-      @article.stub(:merge)
-      @article.should_not_receive(:merge)
-      post :merge_article, :id=>@article.id, :merge_with => @article.id
+      @article.stub(:merge_with => @article)
+      @article.should_receive(:merge_with)
+      post :merge_article, :id=>@article.id, :merge_with => 100
     end
 
     it 'does not merge articles when user is non-admin' do
       @user = Factory(:user, :profile => Factory(:profile_publisher))
       request.session = { :user => @user.id }
       Article.stub(:find_by_id => @article)
-      @article.stub(:merge)
-      @article.should_not_receive(:merge)
-      post :merge_article, :id=>@article.id, :merge_with => nil
+      @article.stub(:merge_with => @article)
+      @article.should_not_receive(:merge_with)
+      post :merge_article, :id=>@article.id, :merge_with => 100
 #      response.should redirect_to('/')
+    end
+
+    it 'does not call article#merge when both articles are the same' do
+      Article.stub(:find_by_id => @article)
+      @article.stub(:merge_with => @article)
+      @article.should_not_receive(:merge_with)
+      post :merge_article, :id=>@article.id, :merge_with => @article.id
     end
 
   end
